@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
-from algoritmos.vr import funcionVR
-from algoritmos.fuerzaBruta import bruta
-from algoritmos.voraz import voraz
+from texto.accionesV import accionesV
+from texto.accionesFB import accionesFB
 
 # Crear una instancia de la ventana
 ventana = tk.Tk()
@@ -30,6 +29,7 @@ def abrir_archivo():
     archivo = filedialog.askopenfile()
     if archivo is not None:
         ruta_archivo.set(archivo.name)
+    
 
 # Crear una variable para almacenar la ruta del archivo seleccionado
 ruta_archivo = tk.StringVar()
@@ -37,7 +37,7 @@ ruta_archivo = tk.StringVar()
 # Crear un label para mostrar el nombre del archivo seleccionado
 label_archivo = tk.Label(ventana, textvariable=ruta_archivo)
 label_archivo.pack()
-label_archivo.config(font=('Arial',8))
+label_archivo.config(font=('Arial',8), bg="white")
 label_archivo.place(x=10, y=130)
 
 # Crear un botón para abrir el selector de archivos
@@ -67,56 +67,48 @@ texto_descarga.pack()
 texto_descarga.config(font=('Times New Roman', 12), bg="white")
 texto_descarga.place(x=10, y=220)
 
-def leer_archivos(ruta_archivo):
-    archivo= open(ruta_archivo, "r", encoding="utf-8")
-    instrucciones = []
-    salida = []
-    
-    # Lee el archivo de entrada y almacena las instrucciones A, B, n, oferta(p,c,r), gobierno
-    while (True):
-       line = archivo.readline()
-       listLine = line.split()
-       if listLine == []:
-          break
-       instrucciones.append(listLine)
-    
-    A = int(instrucciones[0][0])
-    B = int(instrucciones[1][0])
-    n = int(instrucciones[2][0])
-    tripletas = []
-    
-    for i in range(3,len(instrucciones)):
-       tripletas.append(instrucciones[i][0])
-    
-    ofertas = []
-    
-    for j in tripletas:
-        ofertantes = [int(x) for x in j.split(",")]
-        tripleta = tuple(ofertantes)
-        ofertas.append(tripleta)
-    
-    if variar_opciones.get() == "Fuerza bruta":
-        salida.append(str(bruta(A,B,n,ofertas)))
-        funcion_salida = bruta(A,B,n,ofertas)
-    elif variar_opciones.get() == "Voraz":
-        salida.append(str(funcionVR(voraz(A,B,n,ofertas), ofertas)))
-        funcion_salida = voraz(A,B,n,ofertas)
-    elif variar_opciones.get() == "Dinamica 1":
-        # implementar el código para Dinamica 1
-        pass
-    elif variar_opciones.get() == "Dinamica 2":
-        # implementar el código para Dinamica 2
-        pass
-    else:
-        # no se seleccionó ninguna opción válida
-        pass
+# Botón para generar el archivo de salida y permitir su descarga
+boton_salida = tk.Button(ventana, text="Descargar salida", bg="black", fg="white")
+boton_salida.pack()
+boton_salida.config(font=('Times New Roman', 10))
+boton_salida.place(x=10, y=260)
 
-    # Resto del código para generar la salida y descargar el archivo
-    for i in funcion_salida:
-        salida.append(str(i))
-        
-    with open("salidaSubasta.txt", "w") as t:
-        t.write('\n'.join(salida))
+def iniciar_algoritmo():
+    algoritmo_seleccionado = variar_opciones.get()
+    
+    if algoritmo_seleccionado == "Fuerza bruta":
+        # --
+        return 0
+    elif algoritmo_seleccionado == "Voraz":
+        return 0
+    elif algoritmo_seleccionado == "Dinamica 1":
+       return 0
+    elif algoritmo_seleccionado == "Dinamica 2":
+       return 0
+
+# Botón para iniciar el algoritmo seleccionado
+boton_inicio = tk.Button(ventana, text="Iniciar algoritmo",command=iniciar_algoritmo, bg="black", fg="white")
+boton_inicio.pack()
+boton_inicio.place(x=160, y=182)
+
+def mostrar_creditos():
+    ventana_creditos = tk.Toplevel(ventana)
+    ventana_creditos.title("Créditos")
+    ventana_creditos. geometry("300x200")
+    ventana_creditos.config(bg="white")
+
+    # Crear una etiqueta para mostrar los créditos del programa
+    etiqueta_creditos = tk.Label(ventana_creditos, text="Créditos \n  \n Laura Daniela Jaimes - 2040430 \n Santiago Casañas Tabares - 2025301 \n Mayra Alejandra Sanchez - 2040506 \n Jesús Adrian Peña - 2025513")
+    etiqueta_creditos.pack()
+    etiqueta_creditos.config(font=('Times New Roman', 10), bg="white")
+    etiqueta_creditos.place(x=50, y=50)
+
+boton_creditos = tk.Button(ventana, text="Créditos", command=mostrar_creditos, bg="red")
+boton_creditos.pack()
+boton_creditos.config(font=('Times New Roman', 10))
+boton_creditos.place(x=300, y=350)
 
 # Ejecutar el bucle principal de la ventana
 ventana.mainloop()
+
+
