@@ -37,5 +37,6 @@ def accionesV(entrada):
   for i in funcion_salida:
     salida.append(str(i))
 
-  with open("outputVoraz.txt", "w") as t:
+  with open("salida/output.txt", "w") as t:
     t.write('\n'.join(salida))
+

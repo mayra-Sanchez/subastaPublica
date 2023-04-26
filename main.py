@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from texto.accionesV import accionesV
 from texto.accionesFB import accionesFB
+import os
 
 # Crear una instancia de la ventana
 ventana = tk.Tk()
@@ -69,12 +70,6 @@ texto_descarga.pack()
 texto_descarga.config(font=('Times New Roman', 12), bg="white")
 texto_descarga.place(x=10, y=220)
 
-# Botón para generar el archivo de salida y permitir su descarga
-boton_salida = tk.Button(ventana, text="Descargar salida", bg="black", fg="white")
-boton_salida.pack()
-boton_salida.config(font=('Times New Roman', 10))
-boton_salida.place(x=10, y=260)
-
 def iniciar_algoritmo():
     algoritmo_seleccionado = variar_opciones.get()
     entrada = ruta_archivo.get()
@@ -94,6 +89,18 @@ def iniciar_algoritmo():
 boton_inicio = tk.Button(ventana, text="Iniciar algoritmo",command=iniciar_algoritmo, bg="black", fg="white")
 boton_inicio.pack()
 boton_inicio.place(x=160, y=182)
+
+def descargar_archivo():
+    ruta_archivo = "salida/output.txt"
+    ruta_guardado = filedialog.asksaveasfilename(defaultextension=".txt")
+    if ruta_guardado != "":
+        os.replace(ruta_archivo, ruta_guardado)
+
+# Botón para generar el archivo de salida y permitir su descarga
+boton_salida = tk.Button(ventana, text="Descargar salida", command=descargar_archivo, bg="black", fg="white")
+boton_salida.pack()
+boton_salida.config(font=('Times New Roman', 10))
+boton_salida.place(x=10, y=260)
 
 def mostrar_creditos():
     ventana_creditos = tk.Toplevel(ventana)
