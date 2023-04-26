@@ -26,13 +26,15 @@ texto_archivo.place(x=10, y=70)
 
 # Función para abrir el selector de archivos
 def abrir_archivo():
-    archivo = filedialog.askopenfile()
+    archivo = filedialog.askopenfilename(filetypes=[('Subtitles files', '*.sub *.psub')])
     if archivo is not None:
-        ruta_archivo.set(archivo.name)
+        ruta_archivo.set(archivo)
     
 
 # Crear una variable para almacenar la ruta del archivo seleccionado
 ruta_archivo = tk.StringVar()
+
+
 
 # Crear un label para mostrar el nombre del archivo seleccionado
 label_archivo = tk.Label(ventana, textvariable=ruta_archivo)
@@ -75,10 +77,12 @@ boton_salida.place(x=10, y=260)
 
 def iniciar_algoritmo():
     algoritmo_seleccionado = variar_opciones.get()
-    
+    entrada = ruta_archivo.get()
+
     if algoritmo_seleccionado == "Fuerza bruta":
-        # --
-        return 0
+        #print(ruta_archivo.get())
+        accionesFB(entrada)
+        #print(accionesFB(entrada))
     elif algoritmo_seleccionado == "Voraz":
         return 0
     elif algoritmo_seleccionado == "Dinamica 1":

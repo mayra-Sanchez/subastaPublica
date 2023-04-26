@@ -25,7 +25,7 @@ def accionesFB(entrada):
   ofertas = []
 
   for j in tripletas:
-    ofertantes = [int(x) for x in j.split(",")]
+    ofertantes = [int(x) for x in j.split(",") if x] 
     tripleta = tuple(ofertantes)
     ofertas.append(tripleta)
 
