@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, Label, PhotoImage
 from texto.accionesV import accionesV
 from texto.accionesFB import accionesFB
 import os
@@ -28,17 +28,14 @@ texto_archivo.place(x=10, y=70)
 
 # Función para abrir el selector de archivos
 
-
 def abrir_archivo():
     archivo = filedialog.askopenfilename(
         filetypes=[('Subtitles files', '*.sub *.psub')])
     if archivo is not None:
         ruta_archivo.set(archivo)
 
-
 # Crear una variable para almacenar la ruta del archivo seleccionado
 ruta_archivo = tk.StringVar()
-
 
 # Crear un label para mostrar el nombre del archivo seleccionado
 label_archivo = tk.Label(ventana, textvariable=ruta_archivo)
@@ -76,7 +73,6 @@ texto_descarga.pack()
 texto_descarga.config(font=('Times New Roman', 12), bg="white")
 texto_descarga.place(x=10, y=220)
 
-
 def iniciar_algoritmo():
     algoritmo_seleccionado = variar_opciones.get()
     entrada = ruta_archivo.get()
@@ -92,13 +88,11 @@ def iniciar_algoritmo():
     elif algoritmo_seleccionado == "Dinamica 2":
         return 0
 
-
 # Botón para iniciar el algoritmo seleccionado
 boton_inicio = tk.Button(ventana, text="Iniciar algoritmo",
                          command=iniciar_algoritmo, bg="black", fg="white")
 boton_inicio.pack()
 boton_inicio.place(x=160, y=182)
-
 
 def descargar_archivo():
     ruta_archivo = "output.txt"
@@ -106,14 +100,12 @@ def descargar_archivo():
     if ruta_guardado != "":
         os.replace(ruta_archivo, ruta_guardado)
 
-
 # Botón para generar el archivo de salida y permitir su descarga
 boton_salida = tk.Button(ventana, text="Descargar salida",
                          command=descargar_archivo, bg="black", fg="white")
 boton_salida.pack()
 boton_salida.config(font=('Times New Roman', 10))
 boton_salida.place(x=10, y=260)
-
 
 def mostrar_creditos():
     ventana_creditos = tk.Toplevel(ventana)
@@ -128,12 +120,18 @@ def mostrar_creditos():
     etiqueta_creditos.config(font=('Times New Roman', 10), bg="white")
     etiqueta_creditos.place(x=50, y=50)
 
-
 boton_creditos = tk.Button(ventana, text="Créditos",
                            command=mostrar_creditos, bg="red")
 boton_creditos.pack()
 boton_creditos.config(font=('Times New Roman', 10))
 boton_creditos.place(x=300, y=350)
+
+# Imagen
+image = PhotoImage(file="resources/subasta.png")
+labelImagen = Label(image=image)
+labelImagen.pack()
+labelImagen.place(x=10, y=290)
+labelImagen.config(bg="white")
 
 # Ejecutar el bucle principal de la ventana
 ventana.mainloop()
