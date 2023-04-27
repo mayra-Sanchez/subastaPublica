@@ -1,8 +1,7 @@
-from algoritmos.dinamica1 import PD1
-from algoritmos.vr import funcionVR
+from algoritmos.dinamica2 import PD2
 
 
-def accionesPD1(entrada):
+def pd2(entrada):
 
     archivo = open(entrada, "r", encoding="utf-8")
     instrucciones = []
@@ -19,9 +18,12 @@ def accionesPD1(entrada):
     A = int(instrucciones[0][0])
     B = int(instrucciones[1][0])
     n = int(instrucciones[2][0])
+    M = int(instrucciones[len(instrucciones)-1][0])
+    print(M)
     tripletas = []
 
-    for i in range(3, len(instrucciones)):
+    for i in range(3, len(instrucciones)-1):
+
         tripletas.append(instrucciones[i][0])
 
     ofertas = []
@@ -32,11 +34,14 @@ def accionesPD1(entrada):
         ofertas.append(tripleta)
 
     # Transformar
-    salida.append(str(funcionVR(PD1(A, B, n, ofertas), ofertas)))
-    funcion_salida = PD1(A, B, n, ofertas)
+    salida.append(str(PD2(A, B, n, ofertas, M)[0]))
+    funcion_salida = PD2(A, B, n, ofertas, M)[1]
 
     for i in funcion_salida:
         salida.append(str(i))
 
     with open("outputPD1.txt", "w") as t:
         t.write('\n'.join(salida))
+
+
+pd2("texto.sub")

@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import filedialog, Label, PhotoImage
 from texto.accionesV import accionesV
 from texto.accionesFB import accionesFB
-import os
+from texto.accionesPD1 import accionesPD1
+from texto.accionesPD2 import accionesPD2
 
 # Crear una instancia de la ventana
 ventana = tk.Tk()
@@ -28,11 +29,13 @@ texto_archivo.place(x=10, y=70)
 
 # Función para abrir el selector de archivos
 
+
 def abrir_archivo():
     archivo = filedialog.askopenfilename(
         filetypes=[('Subtitles files', '*.sub *.psub')])
     if archivo is not None:
         ruta_archivo.set(archivo)
+
 
 # Crear una variable para almacenar la ruta del archivo seleccionado
 ruta_archivo = tk.StringVar()
@@ -73,6 +76,7 @@ texto_descarga.pack()
 texto_descarga.config(font=('Times New Roman', 12), bg="white")
 texto_descarga.place(x=10, y=220)
 
+
 def iniciar_algoritmo():
     algoritmo_seleccionado = variar_opciones.get()
     entrada = ruta_archivo.get()
@@ -84,9 +88,10 @@ def iniciar_algoritmo():
     elif algoritmo_seleccionado == "Voraz":
         accionesV(entrada)
     elif algoritmo_seleccionado == "Dinamica 1":
-        return 0
+        accionesPD1(entrada)
     elif algoritmo_seleccionado == "Dinamica 2":
-        return 0
+        accionesPD2(entrada)
+
 
 # Botón para iniciar el algoritmo seleccionado
 boton_inicio = tk.Button(ventana, text="Iniciar algoritmo",
@@ -94,11 +99,13 @@ boton_inicio = tk.Button(ventana, text="Iniciar algoritmo",
 boton_inicio.pack()
 boton_inicio.place(x=160, y=182)
 
+
 def descargar_archivo():
     ruta_archivo = "output.txt"
     ruta_guardado = filedialog.asksaveasfilename(defaultextension=".txt")
     if ruta_guardado != "":
         os.replace(ruta_archivo, ruta_guardado)
+
 
 # Botón para generar el archivo de salida y permitir su descarga
 boton_salida = tk.Button(ventana, text="Descargar salida",
@@ -106,6 +113,7 @@ boton_salida = tk.Button(ventana, text="Descargar salida",
 boton_salida.pack()
 boton_salida.config(font=('Times New Roman', 10))
 boton_salida.place(x=10, y=260)
+
 
 def mostrar_creditos():
     ventana_creditos = tk.Toplevel(ventana)
@@ -119,6 +127,7 @@ def mostrar_creditos():
     etiqueta_creditos.pack()
     etiqueta_creditos.config(font=('Times New Roman', 10), bg="white")
     etiqueta_creditos.place(x=50, y=50)
+
 
 boton_creditos = tk.Button(ventana, text="Créditos",
                            command=mostrar_creditos, bg="red")

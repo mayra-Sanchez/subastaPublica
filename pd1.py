@@ -40,3 +40,6 @@ def accionesPD1(entrada):
 
     with open("outputPD1.txt", "w") as t:
         t.write('\n'.join(salida))
+
+
+accionesPD1("texto.sub")
