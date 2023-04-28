@@ -1,5 +1,5 @@
-from algoritmos.vr import funcionVR
-from algoritmos.dinamica2 import funcionPD2
+from algoritmos.dinamica2 import PD2
+
 
 def accionesPD2(entrada):
 
@@ -18,9 +18,11 @@ def accionesPD2(entrada):
     A = int(instrucciones[0][0])
     B = int(instrucciones[1][0])
     n = int(instrucciones[2][0])
+    M = int(instrucciones[len(instrucciones)-1][0])
     tripletas = []
 
-    for i in range(3, len(instrucciones)):
+
+    for i in range(3, len(instrucciones)-1):
         tripletas.append(instrucciones[i][0])
 
     ofertas = []
@@ -31,8 +33,8 @@ def accionesPD2(entrada):
         ofertas.append(tripleta)
 
     # Transformar
-    salida.append(str(funcionVR(funcionPD2(A, B, n, ofertas), ofertas)))
-    funcion_salida = funcionPD2(A, B, n, ofertas)
+    salida.append(str(PD2(A, B, n, ofertas, M)[0]))
+    funcion_salida = PD2(A, B, n, ofertas, M)[1]
 
     for i in funcion_salida:
         salida.append(str(i))

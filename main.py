@@ -2,7 +2,10 @@ import tkinter as tk
 from tkinter import filedialog, Label, PhotoImage
 from texto.accionesV import accionesV
 from texto.accionesFB import accionesFB
+from texto.accionesPD1 import accionesPD1
+from texto.accionesPD2 import accionesPD2
 import os
+import glob
 
 # Crear una instancia de la ventana
 ventana = tk.Tk()
@@ -20,8 +23,7 @@ titulo.pack()
 titulo.config(font=('Times New Roman', 25), bg="black")
 titulo.place(x=20, y=10)
 # Texto 2
-texto_archivo = tk.Label(
-    ventana, text="Seleccione el archivo a leer", fg="black")
+texto_archivo = tk.Label(ventana, text="Seleccione el archivo a leer", fg="black")
 texto_archivo.pack()
 texto_archivo.config(font=('Times New Roman', 12), bg="white")
 texto_archivo.place(x=10, y=70)
@@ -29,11 +31,13 @@ texto_archivo.place(x=10, y=70)
 # Función para abrir el selector de archivos
 
 def abrir_archivo():
+    global extension
     archivo = filedialog.askopenfilename(
         filetypes=[('Subtitles files', '*.sub *.psub')])
     if archivo is not None:
         ruta_archivo.set(archivo)
-
+        extension = os.path.splitext(archivo)[1].lower()
+    
 # Crear una variable para almacenar la ruta del archivo seleccionado
 ruta_archivo = tk.StringVar()
 
@@ -50,8 +54,7 @@ boton.pack()
 boton.place(x=10, y=100)
 
 # Texto 3
-texto_drop = tk.Label(
-    ventana, text="Seleccione el algoritmo que desea probar", fg="black")
+texto_drop = tk.Label(ventana, text="Seleccione el algoritmo que desea probar", fg="black")
 texto_drop.pack()
 texto_drop.config(font=('Times New Roman', 12), bg="white")
 texto_drop.place(x=10, y=150)
@@ -67,8 +70,7 @@ drop_box.place(x=10, y=180)
 drop_box.config(font=('Times New Roman', 10), bg="black", fg="white")
 
 # Texto 4
-texto_descarga = tk.Label(
-    ventana, text="Para descargar el archivo de salida, presione el boton", fg="black")
+texto_descarga = tk.Label(ventana, text="Para descargar el archivo de salida, presione el boton", fg="black")
 texto_descarga.pack()
 texto_descarga.config(font=('Times New Roman', 12), bg="white")
 texto_descarga.place(x=10, y=220)
@@ -78,31 +80,58 @@ def iniciar_algoritmo():
     entrada = ruta_archivo.get()
 
     if algoritmo_seleccionado == "Fuerza bruta":
-        # print(ruta_archivo.get())
-        accionesFB(entrada)
-        # print(accionesFB(entrada))
+        if extension == '.sub':
+            accionesFB(entrada, 1)
+        elif extension == '.psub':
+            accionesFB(entrada, 2)
     elif algoritmo_seleccionado == "Voraz":
-        accionesV(entrada)
+        if extension == '.sub':
+            accionesV(entrada, 1)
+        elif extension == '.psub':
+            accionesV(entrada, 2)
     elif algoritmo_seleccionado == "Dinamica 1":
-        return 0
+        if extension == '.sub':
+            accionesPD1(entrada, 1)
+        elif extension == '.psub':
+            accionesPD1(entrada, 2)
     elif algoritmo_seleccionado == "Dinamica 2":
-        return 0
+            accionesPD2(entrada)
 
 # Botón para iniciar el algoritmo seleccionado
-boton_inicio = tk.Button(ventana, text="Iniciar algoritmo",
-                         command=iniciar_algoritmo, bg="black", fg="white")
+boton_inicio = tk.Button(ventana, text="Iniciar algoritmo", command=iniciar_algoritmo, bg="black", fg="white")
 boton_inicio.pack()
 boton_inicio.place(x=160, y=182)
 
-def descargar_archivo():
-    ruta_archivo = "output.txt"
-    ruta_guardado = filedialog.asksaveasfilename(defaultextension=".txt")
-    if ruta_guardado != "":
-        os.replace(ruta_archivo, ruta_guardado)
+# Deshabilitar y habilitar boton de desacarga
 
-# Botón para generar el archivo de salida y permitir su descarga
-boton_salida = tk.Button(ventana, text="Descargar salida",
-                         command=descargar_archivo, bg="black", fg="white")
+def buscar():
+    NombreArchivo = "output.txt"
+    ruta_archivo = None
+    for archivo in os.listdir():
+        if archivo == NombreArchivo:
+            ruta_archivo = os.path.abspath(archivo)
+            break
+    return ruta_archivo
+
+def habilitar_descarga():
+    ruta = buscar()
+    if ruta is not None:
+        boton_salida.config(state=tk.NORMAL)
+    else:
+        boton_salida.config(state=tk.DISABLED)
+
+def descargar_archivo():
+    ruta = buscar()
+    if ruta is not None:
+        archivo = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
+        if archivo is not None:
+            with open(ruta, 'r') as archivo_original:
+                contenido = archivo_original.read()
+                archivo.write(contenido)
+                archivo.close()
+
+# Configuraciones del botón
+boton_salida = tk.Button(ventana, text="Descargar salida", command=lambda: (habilitar_descarga(),  descargar_archivo()), bg="black", fg="white")
 boton_salida.pack()
 boton_salida.config(font=('Times New Roman', 10))
 boton_salida.place(x=10, y=260)
@@ -120,8 +149,7 @@ def mostrar_creditos():
     etiqueta_creditos.config(font=('Times New Roman', 10), bg="white")
     etiqueta_creditos.place(x=50, y=50)
 
-boton_creditos = tk.Button(ventana, text="Créditos",
-                           command=mostrar_creditos, bg="red")
+boton_creditos = tk.Button(ventana, text="Créditos",command=mostrar_creditos, bg="red")
 boton_creditos.pack()
 boton_creditos.config(font=('Times New Roman', 10))
 boton_creditos.place(x=300, y=350)

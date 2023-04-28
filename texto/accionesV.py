@@ -2,7 +2,7 @@ from algoritmos.vr import funcionVR
 from algoritmos.voraz import voraz
 
 
-def accionesV(entrada):
+def accionesV(entrada, extension):
 
     archivo = open(entrada, "r", encoding="utf-8")
     instrucciones = []
@@ -21,8 +21,13 @@ def accionesV(entrada):
     n = int(instrucciones[2][0])
     tripletas = []
 
-    for i in range(3, len(instrucciones)):
-        tripletas.append(instrucciones[i][0])
+    if extension == 1: 
+        for i in range(3, len(instrucciones)):
+            tripletas.append(instrucciones[i][0])
+
+    if extension == 2: 
+        for i in range(3, len(instrucciones)-1):
+            tripletas.append(instrucciones[i][0])
 
     ofertas = []
 
