@@ -33,4 +33,4 @@ def PD1(A, B, n, ofertas):
             j += 1
         return X
 
-    return construirSolucion(valorRecursivo(n, A))
+    return (valorRecursivo(n, A)[0], construirSolucion(valorRecursivo(n, A)))

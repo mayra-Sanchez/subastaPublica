@@ -1,4 +1,3 @@
-from algoritmos.vr import funcionVR
 from algoritmos.dinamica2 import PD2
 
 
@@ -20,11 +19,10 @@ def accionesPD2(entrada):
     B = int(instrucciones[1][0])
     n = int(instrucciones[2][0])
     M = int(instrucciones[len(instrucciones)-1][0])
-    print(M)
     tripletas = []
 
-    for i in range(3, len(instrucciones)-1):
 
+    for i in range(3, len(instrucciones)-1):
         tripletas.append(instrucciones[i][0])
 
     ofertas = []
@@ -41,5 +39,5 @@ def accionesPD2(entrada):
     for i in funcion_salida:
         salida.append(str(i))
 
-    with open("outputPD1.txt", "w") as t:
+    with open("output.txt", "w") as t:
         t.write('\n'.join(salida))
