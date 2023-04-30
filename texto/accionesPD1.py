@@ -38,10 +38,14 @@ def accionesPD1(entrada, extension):
 
     # Transformar
     salida.append(str(PD1(A,B,n,ofertas)[0]))
-    funcion_salida = PD1(A, B, n, ofertas)
+    funcion_salida = PD1(A, B, n, ofertas)[1]
+    
 
     for i in funcion_salida:
         salida.append(str(i))
+        print(salida)
+    
+    
 
     with open("output.txt", "w") as t:
         t.write('\n'.join(salida))
